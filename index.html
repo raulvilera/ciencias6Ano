@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade de Ciências - Terra e Seus Movimentos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #2E6DA4; /* Azul Terra */
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #AED6F1; /* Azul claro */
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 5mm;
+        }
+        
+        .school-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .info-field {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .name-field {
+            flex: 2;
+            min-width: 250px;
+        }
+        
+        .info-field label {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .info-field input, .info-field select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        
+        #student-number {
+            width: 60px;
+        }
+        
+        #student-grade {
+            width: 80px;
+        }
+        
+        .activity-title {
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .theme {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .questions-container {
+            background: linear-gradient(to bottom, #D6EAF8, #EAF4FB); /* Degradê azul céu */
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            background-color: #AED6F1; /* Azul claro */
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question:not(:last-child) {
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .question-text p {
+            margin-bottom: 8px;
+        }
+        
+        .question-image {
+            max-width: 100%;
+            margin: 15px auto;
+            border-radius: 5px;
+            display: block;
+            border: 2px solid #5DADE2;
+        }
+        
+        .options {
+            margin-top: 15px;
+        }
+        
+        .option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .option input {
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+        
+        .option label {
+            line-height: 1.4;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+        
+        #submit-btn {
+            background-color: #2980B9;
+            color: white;
+        }
+        
+        #clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .option-letter {
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            .info-row { flex-direction: column; align-items: stretch; }
+            .info-field, .name-field { min-width: 100%; }
+            .buttons { flex-direction: column; }
+            button { width: 100%; }
+        }
+        
+        @media (max-width: 480px) {
+            .header { padding: 10px; }
+            .school-name { font-size: 16px; }
+            .question { padding: 15px; }
+            .question-number { font-size: 16px; }
+            .option { flex-direction: column; align-items: flex-start; }
+            .option input { margin-bottom: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-name">E.E. PROFª WANDA MASCAGNI DE SÁ</div>
+            <div class="student-info">
+                <div class="info-row">
+                    <div class="info-field name-field">
+                        <label for="student-name">NOME:</label>
+                        <select id="student-name">
+                            <option value="">Selecione seu nome</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-field">
+                        <label for="student-number">Nº:</label>
+                        <input type="text" id="student-number" readonly>
+                    </div>
+                    <div class="info-field">
+                        <label for="student-grade">SÉRIE:</label>
+                        <select id="student-grade">
+                            <option value="6ºAno B">6ºAno B</option>
+                            <option value="6ºAno C">6ºAno C</option>
+                        </select>
+                    </div>
+                    <div class="info-field">
+                        <label for="activity-date">DATA:</label>
+                        <input type="date" id="activity-date">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="activity-title"><strong>ATIVIDADE DE CIÊNCIAS (1º BIMESTRE)</strong></div>
+        <div class="theme">Tema: A Terra e Seus Movimentos</div>
+        
+        <div class="questions-container">
+            <form id="quiz-form">
+
+                <!-- Questão 1 -->
+                <div class="question">
+                    <div class="question-number">Questão 1</div>
+                    <div class="question-text">
+                        <p>A ciência utiliza um conjunto de etapas para investigar os fenômenos da natureza, denominado Método Científico. Com base nos conteúdos estudados sobre Ciências da Terra, analise as afirmações a seguir:</p>
+                        <p>I. A observação é o ponto de partida do método científico, pois é a partir dela que surgem as perguntas científicas.</p>
+                        <p>II. Uma hipótese é uma explicação definitiva e comprovada para um fenômeno natural.</p>
+                        <p>III. O experimento tem como objetivo testar as hipóteses levantadas pelo cientista.</p>
+                        <p>IV. A conclusão científica pode confirmar ou refutar uma hipótese, com base nos resultados obtidos.</p>
+                        <p>Quais afirmações estão <strong>corretas</strong>?</p>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/The_Scientific_Method.svg/640px-The_Scientific_Method.svg.png" class="question-image" alt="Método Científico">
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q1a" name="q1" value="a">
+                            <label for="q1a"><span class="option-letter">A)</span> I e II apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1b" name="q1" value="b">
+                            <label for="q1b"><span class="option-letter">B)</span> I, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1c" name="q1" value="c">
+                            <label for="q1c"><span class="option-letter">C)</span> II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1d" name="q1" value="d">
+                            <label for="q1d"><span class="option-letter">D)</span> I, II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1e" name="q1" value="e">
+                            <label for="q1e"><span class="option-letter">E)</span> II e IV apenas</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 2 -->
+                <div class="question">
+                    <div class="question-number">Questão 2</div>
+                    <div class="question-text">
+                        <p>Observe a imagem abaixo que representa o planeta Terra e suas principais características:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/600px-The_Earth_seen_from_Apollo_17.jpg" class="question-image" alt="Planeta Terra">
+                        <p>Com base na imagem e nos conhecimentos sobre a formação e características gerais do planeta Terra, assinale a alternativa <strong>CORRETA</strong>:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q2a" name="q2" value="a">
+                            <label for="q2a"><span class="option-letter">A)</span> A Terra tem forma perfeitamente esférica, com o mesmo diâmetro em todos os sentidos.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2b" name="q2" value="b">
+                            <label for="q2b"><span class="option-letter">B)</span> A Terra é um geoide levemente achatado nos polos e mais largo na região equatorial.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2c" name="q2" value="c">
+                            <label for="q2c"><span class="option-letter">C)</span> A superfície terrestre é formada exclusivamente por água, sem partes sólidas.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2d" name="q2" value="d">
+                            <label for="q2d"><span class="option-letter">D)</span> A Terra foi formada há aproximadamente 500 milhões de anos a partir de poeira cósmica.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2e" name="q2" value="e">
+                            <label for="q2e"><span class="option-letter">E)</span> O planeta Terra não possui campo magnético próprio, dependendo do Sol para isso.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 3 -->
+                <div class="question">
+                    <div class="question-number">Questão 3</div>
+                    <div class="question-text">
+                        <p>Analise a imagem que representa as camadas internas do planeta Terra:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Earth_poster.svg/640px-Earth_poster.svg.png" class="question-image" alt="Estrutura interna da Terra">
+                        <p>Com base na imagem e nos conhecimentos sobre a estrutura interna da Terra, <strong>relacione</strong> as camadas com suas características:</p>
+                        <p>1. Crosta</p>
+                        <p>2. Manto</p>
+                        <p>3. Núcleo externo</p>
+                        <p>4. Núcleo interno</p>
+                        <p>( ) Camada mais superficial e sólida onde vivemos</p>
+                        <p>( ) Camada mais espessa, composta por rochas em estado pastoso/plástico</p>
+                        <p>( ) Região central sólida, composta principalmente de ferro e níquel</p>
+                        <p>( ) Camada líquida responsável pela geração do campo magnético terrestre</p>
+                        <p>A sequência correta é:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q3a" name="q3" value="a">
+                            <label for="q3a"><span class="option-letter">A)</span> 1, 2, 3, 4</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3b" name="q3" value="b">
+                            <label for="q3b"><span class="option-letter">B)</span> 2, 1, 4, 3</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3c" name="q3" value="c">
+                            <label for="q3c"><span class="option-letter">C)</span> 1, 2, 4, 3</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3d" name="q3" value="d">
+                            <label for="q3d"><span class="option-letter">D)</span> 3, 4, 2, 1</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3e" name="q3" value="e">
+                            <label for="q3e"><span class="option-letter">E)</span> 4, 3, 1, 2</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 4 -->
+                <div class="question">
+                    <div class="question-number">Questão 4</div>
+                    <div class="question-text">
+                        <p>Observe o diagrama abaixo que representa as quatro esferas do planeta Terra:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Earth_System_Science.jpg/640px-Earth_System_Science.jpg" class="question-image" alt="Esferas da Terra">
+                        <p>Com base no diagrama e nos conhecimentos sobre as esferas terrestres, assinale a alternativa que apresenta a relação <strong>INCORRETA</strong> entre a esfera e sua descrição:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q4a" name="q4" value="a">
+                            <label for="q4a"><span class="option-letter">A)</span> Litosfera – parte sólida da Terra, formada pelas rochas da crosta e parte superior do manto.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4b" name="q4" value="b">
+                            <label for="q4b"><span class="option-letter">B)</span> Hidrosfera – conjunto de todas as águas do planeta, incluindo oceanos, rios, lagos e geleiras.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4c" name="q4" value="c">
+                            <label for="q4c"><span class="option-letter">C)</span> Atmosfera – camada de gases que envolve o planeta e que só existe nas regiões polares da Terra.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4d" name="q4" value="d">
+                            <label for="q4d"><span class="option-letter">D)</span> Biosfera – conjunto de todos os seres vivos e os ambientes em que habitam na Terra.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4e" name="q4" value="e">
+                            <label for="q4e"><span class="option-letter">E)</span> As quatro esferas interagem entre si de forma contínua, formando o sistema terrestre.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 5 -->
+                <div class="question">
+                    <div class="question-number">Questão 5</div>
+                    <div class="question-text">
+                        <p>Analise a imagem que representa o movimento de rotação da Terra:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Earth_rotation.gif/200px-Earth_rotation.gif" class="question-image" alt="Rotação da Terra">
+                        <p>Com base na imagem e nos conhecimentos sobre o movimento de rotação terrestre, analise as afirmações a seguir:</p>
+                        <p>I. A rotação é o movimento que a Terra realiza em torno de seu próprio eixo.</p>
+                        <p>II. O movimento de rotação leva aproximadamente 365 dias para ser completado.</p>
+                        <p>III. É o movimento de rotação que causa a sucessão de dias e noites na Terra.</p>
+                        <p>IV. A Terra gira de oeste para leste, o que faz o Sol parecer nascer no leste (oriente).</p>
+                        <p>Quais afirmações estão <strong>corretas</strong>?</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q5a" name="q5" value="a">
+                            <label for="q5a"><span class="option-letter">A)</span> I e II apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5b" name="q5" value="b">
+                            <label for="q5b"><span class="option-letter">B)</span> II e III apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5c" name="q5" value="c">
+                            <label for="q5c"><span class="option-letter">C)</span> I, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5d" name="q5" value="d">
+                            <label for="q5d"><span class="option-letter">D)</span> I, II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5e" name="q5" value="e">
+                            <label for="q5e"><span class="option-letter">E)</span> III e IV apenas</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 6 -->
+                <div class="question">
+                    <div class="question-number">Questão 6</div>
+                    <div class="question-text">
+                        <p>Observe a imagem que representa o movimento de translação da Terra ao redor do Sol:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Seasons1.svg/640px-Seasons1.svg.png" class="question-image" alt="Translação e Estações do Ano">
+                        <p>Com base na imagem e nos conhecimentos sobre o movimento de translação terrestre, assinale a alternativa <strong>CORRETA</strong>:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q6a" name="q6" value="a">
+                            <label for="q6a"><span class="option-letter">A)</span> O movimento de translação é o responsável pela ocorrência dos dias e das noites.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6b" name="q6" value="b">
+                            <label for="q6b"><span class="option-letter">B)</span> A Terra percorre sua órbita ao redor do Sol em aproximadamente 24 horas.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6c" name="q6" value="c">
+                            <label for="q6c"><span class="option-letter">C)</span> O movimento de translação leva aproximadamente 365 dias e é responsável pela definição do ano terrestre.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6d" name="q6" value="d">
+                            <label for="q6d"><span class="option-letter">D)</span> A órbita da Terra ao redor do Sol é perfeitamente circular, mantendo sempre a mesma distância.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6e" name="q6" value="e">
+                            <label for="q6e"><span class="option-letter">E)</span> O movimento de translação ocorre em torno do próprio eixo terrestre.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 7 -->
+                <div class="question">
+                    <div class="question-number">Questão 7</div>
+                    <div class="question-text">
+                        <p>Analise a imagem que representa as estações do ano no Hemisfério Sul:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Seasonearth.png/640px-Seasonearth.png" class="question-image" alt="Estações do Ano">
+                        <p>Com base na imagem e nos conhecimentos sobre as estações do ano, assinale a alternativa <strong>CORRETA</strong> sobre o que determina as estações do ano na Terra:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q7a" name="q7" value="a">
+                            <label for="q7a"><span class="option-letter">A)</span> As estações do ano são causadas pela variação da distância entre a Terra e o Sol ao longo do ano.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7b" name="q7" value="b">
+                            <label for="q7b"><span class="option-letter">B)</span> As estações do ano são iguais nos dois hemisférios terrestre ao mesmo tempo.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7c" name="q7" value="c">
+                            <label for="q7c"><span class="option-letter">C)</span> As estações do ano são causadas pela inclinação do eixo terrestre em relação ao plano de órbita, fazendo com que cada hemisfério receba mais ou menos luz solar em diferentes épocas do ano.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7d" name="q7" value="d">
+                            <label for="q7d"><span class="option-letter">D)</span> As estações do ano só existem nos polos terrestres, não ocorrendo nas regiões tropicais.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7e" name="q7" value="e">
+                            <label for="q7e"><span class="option-letter">E)</span> As estações do ano são causadas pelo movimento de rotação da Terra em torno do próprio eixo.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 8 -->
+                <div class="question">
+                    <div class="question-number">Questão 8</div>
+                    <div class="question-text">
+                        <p>Observe a imagem que representa a inclinação do eixo terrestre:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/AxialTiltObliquity.png/640px-AxialTiltObliquity.png" class="question-image" alt="Inclinação do Eixo Terrestre">
+                        <p>Com base na imagem e nos conhecimentos sobre a inclinação do eixo da Terra, analise as afirmações:</p>
+                        <p>I. O eixo terrestre é inclinado aproximadamente 23,5° em relação à perpendicular ao plano da órbita.</p>
+                        <p>II. Sem a inclinação do eixo, não existiriam as quatro estações do ano como as conhecemos.</p>
+                        <p>III. A inclinação do eixo faz com que o Sol seja projetado perpendicularmente em diferentes regiões ao longo do ano.</p>
+                        <p>IV. A inclinação do eixo terrestre muda constantemente, variando de 0° a 90° a cada ano.</p>
+                        <p>Quais afirmações estão <strong>corretas</strong>?</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q8a" name="q8" value="a">
+                            <label for="q8a"><span class="option-letter">A)</span> I e IV apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8b" name="q8" value="b">
+                            <label for="q8b"><span class="option-letter">B)</span> I, II e III</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8c" name="q8" value="c">
+                            <label for="q8c"><span class="option-letter">C)</span> II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8d" name="q8" value="d">
+                            <label for="q8d"><span class="option-letter">D)</span> I, II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8e" name="q8" value="e">
+                            <label for="q8e"><span class="option-letter">E)</span> III e IV apenas</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 9 -->
+                <div class="question">
+                    <div class="question-number">Questão 9</div>
+                    <div class="question-text">
+                        <p>Observe a imagem que representa o sistema Sol–Terra–Lua e suas interações:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Moon_phase_diagram_in_Portuguese.svg/640px-Moon_phase_diagram_in_Portuguese.svg.png" class="question-image" alt="Sistema Sol-Terra-Lua e Fases da Lua">
+                        <p>Com base na imagem e nos conhecimentos sobre o sistema Sol–Terra–Lua, assinale a alternativa que descreve <strong>CORRETAMENTE</strong> as fases da Lua:</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q9a" name="q9" value="a">
+                            <label for="q9a"><span class="option-letter">A)</span> As fases da Lua são causadas pelas nuvens que encobrem partes diferentes da Lua ao longo do mês.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9b" name="q9" value="b">
+                            <label for="q9b"><span class="option-letter">B)</span> As fases da Lua ocorrem porque a Lua emite sua própria luz, que varia em intensidade ao longo do mês.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9c" name="q9" value="c">
+                            <label for="q9c"><span class="option-letter">C)</span> As fases da Lua são resultantes da posição relativa entre Sol, Terra e Lua, determinando qual parte iluminada da Lua é visível da Terra.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9d" name="q9" value="d">
+                            <label for="q9d"><span class="option-letter">D)</span> As fases da Lua acontecem porque a Lua muda de tamanho conforme se aproxima ou se afasta da Terra.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9e" name="q9" value="e">
+                            <label for="q9e"><span class="option-letter">E)</span> As fases da Lua são causadas pela sombra da Terra projetada sobre a Lua todos os meses.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questão 10 -->
+                <div class="question">
+                    <div class="question-number">Questão 10</div>
+                    <div class="question-text">
+                        <p>Observe a imagem que representa os eclipses solar e lunar:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Geometry_of_a_Lunar_Eclipse.svg/640px-Geometry_of_a_Lunar_Eclipse.svg.png" class="question-image" alt="Eclipse Lunar">
+                        <p>Com base na imagem e nos conhecimentos sobre eclipses, analise as afirmações a seguir:</p>
+                        <p>I. O eclipse solar ocorre quando a Lua se interpõe entre o Sol e a Terra, bloqueando a luz solar.</p>
+                        <p>II. O eclipse lunar ocorre quando a Terra se interpõe entre o Sol e a Lua, projetando sua sombra sobre a Lua.</p>
+                        <p>III. Os eclipses ocorrem todos os meses, pois a Lua orbita a Terra mensalmente.</p>
+                        <p>IV. O eclipse total solar só é visível em uma faixa estreita na superfície terrestre, onde a sombra da Lua incide diretamente.</p>
+                        <p>Quais afirmações estão <strong>corretas</strong>?</p>
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q10a" name="q10" value="a">
+                            <label for="q10a"><span class="option-letter">A)</span> I, II, III e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10b" name="q10" value="b">
+                            <label for="q10b"><span class="option-letter">B)</span> I, II e IV</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10c" name="q10" value="c">
+                            <label for="q10c"><span class="option-letter">C)</span> II e III apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10d" name="q10" value="d">
+                            <label for="q10d"><span class="option-letter">D)</span> I e III apenas</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q10e" name="q10" value="e">
+                            <label for="q10e"><span class="option-letter">E)</span> III e IV apenas</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" id="submit-btn">Enviar Respostas</button>
+                    <button type="button" id="clear-btn">Limpar Respostas</button>
+                </div>
+
+                <div id="result-message" class="result"></div>
+            </form>
+        </div>
+    </div>
+
+<script>
+// ===============================
+// CONFIGURAÇÃO
+// ===============================
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwWOgvUcpoym4LGyUuLBAmhVFEhJWJij37Qfhpj7nCwT4ppScXePgyocQ6rqAoG_sXz/exec";
+
+// ===============================
+// LISTA DE ALUNOS – 6º ANO B e C (E.E. Wanda Mascagni de Sá)
+// ===============================
+const studentsByTurma = {
+  "6ºAno B": [
+    { number: "1",  name: "AGATHA SOPHIE PISSAIA ZANELATTO" },
+    { number: "2",  name: "ALANA SANTOS SILVA" },
+    { number: "3",  name: "ALEXIA LORRANE MENDES PEREIRA" },
+    { number: "4",  name: "ANA CLARA FERREIRA DOS SANTOS" },
+    { number: "5",  name: "ANA LUIZA MEIRELES ALVES" },
+    { number: "6",  name: "ANNA LUISA GOMES ALBUQUERQUE" },
+    { number: "7",  name: "BEATRIZ APARECIDA MARTINS" },
+    { number: "8",  name: "BRENO FREITAS SIQUEIRA" },
+    { number: "9",  name: "CAIO HENRIQUE RIBEIRO SILVA" },
+    { number: "10", name: "DAVI HENRIQUE SOUZA LIMA" },
+    { number: "11", name: "EDUARDA CAMPOS NUNES" },
+    { number: "12", name: "EMILLY VITORIA DA SILVA SANTOS" },
+    { number: "13", name: "ENZO GABRIEL NUNES MACHADO" },
+    { number: "14", name: "GABRIEL AUGUSTO ROSA CAMPOS" },
+    { number: "15", name: "GUSTAVO LIMA DE OLIVEIRA" },
+    { number: "16", name: "HENRIQUE SOUZA BARBOSA" },
+    { number: "17", name: "IGOR SANTOS CARVALHO" },
+    { number: "18", name: "ISABELA FERNANDES RODRIGUES" },
+    { number: "19", name: "ISADORA PEREIRA COSTA" },
+    { number: "20", name: "JOÃO LUCAS ALMEIDA SILVA" },
+    { number: "21", name: "JOÃO PEDRO GOMES FERREIRA" },
+    { number: "22", name: "JULIA CRISTINA LIMA SOUZA" },
+    { number: "23", name: "KAUA VINICIUS MARTINS" },
+    { number: "24", name: "LARISSA RODRIGUES DE LIMA" },
+    { number: "25", name: "LAUANY VITORIA SANTOS" },
+    { number: "26", name: "LAURA BEATRIZ SILVA REIS" },
+    { number: "27", name: "LETICIA SANTOS PEREIRA" },
+    { number: "28", name: "LUAN CARLOS MENDES" },
+    { number: "29", name: "LUCAS GABRIEL FERREIRA" },
+    { number: "30", name: "MANUELA LIMA CARVALHO" },
+    { number: "31", name: "MARIA CLARA OLIVEIRA CAMPOS" },
+    { number: "32", name: "MARIA EDUARDA SILVA SANTOS" },
+    { number: "33", name: "MATHEUS HENRIQUE RODRIGUES" },
+    { number: "34", name: "MIGUEL AUGUSTO COSTA" },
+    { number: "35", name: "NICOLAS SOUZA ALMEIDA" },
+    { number: "36", name: "PEDRO HENRIQUE LIMA SILVA" },
+    { number: "37", name: "RAFAELA SANTOS GOMES" },
+    { number: "38", name: "RYAN CAVALCANTE DOS SANTOS" },
+    { number: "39", name: "SARAH VITORIA CAMPOS" },
+    { number: "40", name: "THAIS FERNANDA OLIVEIRA" }
+  ],
+  "6ºAno C": [
+    { number: "1",  name: "ADRIANA SOUZA FERREIRA" },
+    { number: "2",  name: "ALAN RODRIGUES LIMA" },
+    { number: "3",  name: "ALEXSANDRO CARVALHO SILVA" },
+    { number: "4",  name: "ALICE BEATRIZ MARTINS" },
+    { number: "5",  name: "AMANDA CRISTINA SANTOS" },
+    { number: "6",  name: "ANA BEATRIZ GOMES COSTA" },
+    { number: "7",  name: "ARTUR PEREIRA NUNES" },
+    { number: "8",  name: "BIANCA SILVA DOS SANTOS" },
+    { number: "9",  name: "BRUNNA VITORIA SOUZA" },
+    { number: "10", name: "CARLOS HENRIQUE LIMA" },
+    { number: "11", name: "DANIEL FERREIRA ALVES" },
+    { number: "12", name: "EDUARDA LIMA RODRIGUES" },
+    { number: "13", name: "EMILIY SANTOS CARVALHO" },
+    { number: "14", name: "ERIKA RIBEIRO MARTINS" },
+    { number: "15", name: "FELIPE AUGUSTO NUNES" },
+    { number: "16", name: "FERNANDA COSTA OLIVEIRA" },
+    { number: "17", name: "GABRIEL HENRIQUE SANTOS" },
+    { number: "18", name: "GIOVANNA ALVES FERREIRA" },
+    { number: "19", name: "GUSTAVO RODRIGUES SILVA" },
+    { number: "20", name: "HEITOR LIMA GOMES" },
+    { number: "21", name: "ISABELLA MARTINS SOUZA" },
+    { number: "22", name: "JENIFER SANTOS LIMA" },
+    { number: "23", name: "JOÃO VITOR CARVALHO" },
+    { number: "24", name: "JULIA FERNANDA NUNES" },
+    { number: "25", name: "KAIQUE RODRIGUES SANTOS" },
+    { number: "26", name: "KAREN VITORIA ALVES" },
+    { number: "27", name: "LARISSA BEATRIZ COSTA" },
+    { number: "28", name: "LEONARDO SILVA FERREIRA" },
+    { number: "29", name: "LETICIA CARVALHO GOMES" },
+    { number: "30", name: "LUANA SANTOS OLIVEIRA" },
+    { number: "31", name: "LUCAS HENRIQUE RODRIGUES" },
+    { number: "32", name: "LUISA MARTINS LIMA" },
+    { number: "33", name: "MARCOS VINICIUS NUNES" },
+    { number: "34", name: "MARIA FERNANDA SOUZA" },
+    { number: "35", name: "MATHEUS ALVES CARVALHO" },
+    { number: "36", name: "NATHALIA RIBEIRO SANTOS" },
+    { number: "37", name: "PEDRO LUCAS FERREIRA" },
+    { number: "38", name: "RAFAEL COSTA SILVA" },
+    { number: "39", name: "THIAGO HENRIQUE LIMA" },
+    { number: "40", name: "VITORIA SANTOS GOMES" }
+  ]
+};
+
+// ===============================
+// GABARITO
+// ===============================
+const correctAnswers = {
+  q1: "b", q2: "b", q3: "c", q4: "c", q5: "c",
+  q6: "c", q7: "c", q8: "b", q9: "c", q10: "b"
+};
+
+let submitted = false;
+
+// ===============================
+// INICIALIZAÇÃO
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  const studentSelect = document.getElementById("student-name");
+  const numberField   = document.getElementById("student-number");
+  const gradeSelect   = document.getElementById("student-grade");
+  const dateInput     = document.getElementById("activity-date");
+  const clearBtn      = document.getElementById("clear-btn");
+  const submitBtn     = document.getElementById("submit-btn");
+  const resultMessage = document.getElementById("result-message");
+
+  // Popula dropdown ao carregar (turma padrão: 6ºAno B)
+  populateStudentDropdown(studentSelect, gradeSelect.value);
+
+  if (dateInput) {
+    dateInput.value = new Date().toISOString().split("T")[0];
+  }
+
+  // Atualiza lista ao mudar turma
+  gradeSelect.addEventListener("change", () => {
+    studentSelect.innerHTML = '<option value="">Selecione seu nome</option>';
+    numberField.value = "";
+    populateStudentDropdown(studentSelect, gradeSelect.value);
+  });
+
+  studentSelect.addEventListener("change", e => {
+    const turma = gradeSelect.value;
+    const lista = studentsByTurma[turma] || [];
+    const selectedStudent = lista.find(s => s.name === e.target.value);
+    numberField.value = selectedStudent ? selectedStudent.number : "";
+  });
+
+  clearBtn.addEventListener("click", () => {
+    if (submitted) { alert("Você já enviou as respostas."); return; }
+    clearForm(resultMessage);
+  });
+
+  submitBtn.addEventListener("click", async () => {
+    if (submitted) { alert("Você já enviou suas respostas."); return; }
+    if (!validateForm()) return;
+
+    const score = calculateScore();
+    const studentName = studentSelect.value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+    try {
+      const serverResponse = await sendToGoogleSheets(studentName, score);
+      submitted = true;
+      showResult(score, resultMessage, serverResponse.message);
+      alert(`Enviado com sucesso! Nota: ${score}/10`);
+    } catch (err) {
+      alert("Erro ao enviar: " + err.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Enviar Respostas";
+    }
+  });
+});
+
+// ===============================
+// FUNÇÕES
+// ===============================
+function populateStudentDropdown(select, turma) {
+  const lista = studentsByTurma[turma] || [];
+  lista.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s.name;
+    opt.textContent = s.name;
+    select.appendChild(opt);
+  });
+}
+
+function validateForm() {
+  if (!document.getElementById("student-name").value) {
+    alert("Selecione seu nome.");
+    return false;
+  }
+  if (!document.getElementById("activity-date").value) {
+    alert("Preencha a data.");
+    return false;
+  }
+  return true;
+}
+
+function calculateScore() {
+  let score = 0;
+  for (let i = 1; i <= 10; i++) {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (selected && selected.value === correctAnswers[`q${i}`]) score++;
+  }
+  return score;
+}
+
+function showResult(score, el, msg) {
+  const pct = (score / 10) * 100;
+  el.textContent = `Nota: ${score}/10 (${pct}%). ${msg}`;
+  el.style.display = "block";
+}
+
+function clearForm(resultBox) {
+  document.getElementById("quiz-form").reset();
+  document.getElementById("student-number").value = "";
+  resultBox.style.display = "none";
+}
+
+// ===============================
+// ENVIO AO GOOGLE SHEETS
+// ===============================
+function sendToGoogleSheets(studentName, score) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('studentName', studentName);
+    formData.append('nota', score);
+    formData.append('atividade', 'Ciencias 6Ano - Terra e Movimentos');
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+      return response.json();
+    })
+    .then(result => {
+      if (result.success) resolve(result);
+      else reject(new Error(result.message));
+    })
+    .catch(err => reject(new Error("Falha na requisição: " + err.message)));
+  });
+}
+</script>
+
+</body>
+</html>
